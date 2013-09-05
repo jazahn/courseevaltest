@@ -1,0 +1,15 @@
+application: courseevaltest
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+env_variables:
+  DJANGO_SETTINGS_MODULE: 'courseeval.settings.googleappengine'
+
+libraries:
+- name: django
+  version: "1.5"
+
+builtins:
+- django_wsgi: on
