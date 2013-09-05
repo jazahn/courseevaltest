@@ -1,10 +1,12 @@
 # Django settings for courseeval project.
+from os import path
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
+    ('JaZahn', 'jcleveng@fas.harvard.edu')
 )
 
 MANAGERS = ADMINS
@@ -48,6 +50,10 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+ROOT_DIR = reduce(lambda l,r: path.dirname(l), range(3), path.realpath(__file__))
+
+PROJECT_ROOT = path.join(ROOT_DIR, 'courseeval')
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
 MEDIA_ROOT = ''
@@ -61,7 +67,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = 'static'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -72,7 +78,12 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+	path.join(PROJECT_ROOT, 'static'),
 )
+
+#STATICFILES_DIRS.extend([ 
+#	f for f in glob(path.join(APPS_ROOT, '*', 'static')) if path.isdir(f)
+#])
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -90,6 +101,11 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.messages.context_processors.messages',
+    'django.contrib.auth.context_processors.auth'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -111,7 +127,12 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+	path.join(PROJECT_ROOT, 'templates')
 )
+
+#TEMPLATE_DIRS.extend([
+#	f for f in glob(path.join(APPS_ROOT, '*', 'templates')) if path.isdir(f)
+#])
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -120,11 +141,11 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'courseeval.admin',
+	'courseeval.core',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admindocs',
 )
 
 # A sample logging configuration. The only tangible logging
