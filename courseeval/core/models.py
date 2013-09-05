@@ -19,6 +19,9 @@ class Courses(models.Model):
     eval_start = models.DateField()
     eval_end = models.DateField()
     publish_responses = models.CharField(max_length=1, choices=YESNO)
+    class Meta:
+        verbose_name_plural = "Courses"
+    
 
 # why does your person table have a course ID -- poorly named table
 # is it an mtm or do we get the data from ldap?
@@ -32,12 +35,17 @@ class Person(models.Model):
     course = models.ForeignKey(Courses)
     hu_id = models.CharField(max_length=8)
     course_role = models.CharField(max_length=32, choices=COURSE_ROLE_CHOICES)
-    title = models.CharField(max_length=64)
+    title = models.CharField(max_length=64, blank=True)
+    class Meta:
+       verbose_name_plural = "People"
+
     
 class Questions(models.Model):
     question_id = models.AutoField(primary_key=True)
     question_type = models.CharField(max_length=64)
     text = models.CharField(max_length=1024)
+    class Meta:
+       verbose_name_plural = "Questions"
 
 class Survey_Answers(models.Model):
     course = models.ForeignKey(Courses)
@@ -47,5 +55,7 @@ class Survey_Answers(models.Model):
     # TODO: make this a clob so if people ever ask for rich text we can fit it
     # assuming Oracle, max max_length is 4000
     response = models.CharField(max_length=1024)
+    class Meta:
+       verbose_name_plural = "Survey_Answers"
     
     
